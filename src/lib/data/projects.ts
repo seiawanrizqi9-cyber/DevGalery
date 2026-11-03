@@ -12,6 +12,13 @@ export const projects: Project[] = [
     owner: "Nadia Putri",
     initials: "F",
     accent: "bg-gradient-to-br from-indigo-500 to-violet-700",
+    longDescription:
+      "Flowboard is a collaborative workspace concept designed to help teams organize tasks, track progress, and keep their work in one place.",
+    features: [
+      "Organize tasks by project",
+      "Track team progress",
+      "Keep project information in one workspace",
+    ],
   },
   {
     id: "02",
@@ -24,6 +31,13 @@ export const projects: Project[] = [
     owner: "Arif Pratama",
     initials: "L",
     accent: "bg-gradient-to-br from-cyan-500 to-blue-700",
+    longDescription:
+      "Lumina UI is a collection of reusable interface patterns designed to help developers build consistent and accessible web experiences.",
+    features: [
+      "Reusable interface patterns",
+      "Consistent design foundations",
+      "Accessibility-minded components",
+    ],
   },
   {
     id: "03",
@@ -36,6 +50,13 @@ export const projects: Project[] = [
     owner: "Maya Sari",
     initials: "P",
     accent: "bg-gradient-to-br from-emerald-500 to-teal-800",
+    longDescription:
+      "Pocket Ledger is a personal finance dashboard concept that helps users understand spending patterns and organize their monthly budgets.",
+    features: [
+      "Review spending categories",
+      "Organize monthly budgets",
+      "View personal finance summaries",
+    ],
   },
   {
     id: "04",
@@ -48,6 +69,13 @@ export const projects: Project[] = [
     owner: "Raka Pratama",
     initials: "D",
     accent: "bg-gradient-to-br from-amber-500 to-orange-700",
+    longDescription:
+      "DevNotes is a developer-focused knowledge base for collecting and organizing code snippets and technical notes.",
+    features: [
+      "Collect and organize code snippets",
+      "Keep technical notes easily accessible",
+      "Developer-friendly interface",
+    ],
   },
   {
     id: "05",
@@ -60,6 +88,13 @@ export const projects: Project[] = [
     owner: "Dina Amelia",
     initials: "P",
     accent: "bg-gradient-to-br from-pink-500 to-rose-700",
+    longDescription:
+      "Pixel Studio is a lightweight creative workspace concept for organizing design ideas and visual assets.",
+    features: [
+      "Organize design ideas",
+      "Keep visual assets in one place",
+      "Lightweight creative workspace",
+    ],
   },
   {
     id: "06",
@@ -72,5 +107,12 @@ export const projects: Project[] = [
     owner: "Fajar Ramadhan",
     initials: "A",
     accent: "bg-gradient-to-br from-sky-500 to-indigo-700",
+    longDescription:
+      "API Compass is a simple dashboard for exploring API endpoints and keeping development references organized.",
+    features: [
+      "Explore API endpoints",
+      "Organize development references",
+      "Simple dashboard experience",
+    ],
   },
 ];
