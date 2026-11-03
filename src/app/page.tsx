@@ -2,46 +2,44 @@ import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 
 import { SiteHeader } from "@/components/layout/site-header";
-import {
-  ProjectCard,
-  type ProjectCardData,
-} from "@/components/shared/project-card";
+import { ProjectCard } from "@/components/shared/project-card";
+import { projects } from "@/lib/data/projects"
 
-const projects: ProjectCardData[] = [
-  {
-    id: "01",
-    title: "Flowboard",
-    description:
-      "A collaborative workspace for organizing tasks, tracking progress, and keeping teams in sync.",
-    category: "Web App",
-    technologies: ["Next.js", "TypeScript", "PostgreSQL"],
-    owner: "Nadia Putri",
-    initials: "F",
-    accent: "bg-gradient-to-br from-indigo-500 to-violet-700",
-  },
-  {
-    id: "02",
-    title: "Lumina UI",
-    description:
-      "A collection of accessible interface patterns designed for modern web applications.",
-    category: "UI / Design",
-    technologies: ["React", "Tailwind CSS"],
-    owner: "Arif Pratama",
-    initials: "L",
-    accent: "bg-gradient-to-br from-cyan-500 to-blue-700",
-  },
-  {
-    id: "03",
-    title: "Pocket Ledger",
-    description:
-      "A simple personal finance dashboard for understanding spending habits and monthly budgets.",
-    category: "Fintech",
-    technologies: ["Next.js", "Prisma"],
-    owner: "Maya Sari",
-    initials: "P",
-    accent: "bg-gradient-to-br from-emerald-500 to-teal-800",
-  },
-];
+// const projects: ProjectCardData[] = [
+//   {
+//     id: "01",
+//     title: "Flowboard",
+//     description:
+//       "A collaborative workspace for organizing tasks, tracking progress, and keeping teams in sync.",
+//     category: "Web App",
+//     technologies: ["Next.js", "TypeScript", "PostgreSQL"],
+//     owner: "Nadia Putri",
+//     initials: "F",
+//     accent: "bg-gradient-to-br from-indigo-500 to-violet-700",
+//   },
+//   {
+//     id: "02",
+//     title: "Lumina UI",
+//     description:
+//       "A collection of accessible interface patterns designed for modern web applications.",
+//     category: "UI / Design",
+//     technologies: ["React", "Tailwind CSS"],
+//     owner: "Arif Pratama",
+//     initials: "L",
+//     accent: "bg-gradient-to-br from-cyan-500 to-blue-700",
+//   },
+//   {
+//     id: "03",
+//     title: "Pocket Ledger",
+//     description:
+//       "A simple personal finance dashboard for understanding spending habits and monthly budgets.",
+//     category: "Fintech",
+//     technologies: ["Next.js", "Prisma"],
+//     owner: "Maya Sari",
+//     initials: "P",
+//     accent: "bg-gradient-to-br from-emerald-500 to-teal-800",
+//   },
+// ];
 
 const developers = [
   {

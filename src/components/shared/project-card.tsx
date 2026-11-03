@@ -1,5 +1,6 @@
 
 import { ArrowUpRight } from "lucide-react";
+import { Project } from "@/types/project"; 
 
 export type ProjectCardData = {
   id: string;
@@ -13,7 +14,7 @@ export type ProjectCardData = {
 };
 
 type ProjectCardProps = {
-  project: ProjectCardData;
+  project: Project;
 };
 
 export function ProjectCard({ project }: ProjectCardProps) {

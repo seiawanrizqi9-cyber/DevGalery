@@ -4,9 +4,9 @@ import { Code2 } from "lucide-react";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 
 const navigation = [
-  { label: "Projects", href: "#projects" },
-  { label: "Developers", href: "#developers" },
-  { label: "About", href: "#about" },
+  { label: "Projects", href: "/projects" },
+  { label: "Developers", href: "/#developers" },
+  { label: "About", href: "/#about" },
 ];
 
 export function SiteHeader() {
@@ -44,7 +44,7 @@ export function SiteHeader() {
           <ThemeToggle />
 
           <Link
-            href="#projects"
+            href="/projects"
             className="inline-flex h-9 items-center justify-center rounded-lg bg-primary px-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
           >
             Explore projects
