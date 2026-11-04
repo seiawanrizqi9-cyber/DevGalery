@@ -3,64 +3,8 @@ import { ArrowRight, Sparkles } from "lucide-react";
 
 import { SiteHeader } from "@/components/layout/site-header";
 import { ProjectCard } from "@/components/shared/project-card";
-import { projects } from "@/lib/data/projects"
-
-// const projects: ProjectCardData[] = [
-//   {
-//     id: "01",
-//     title: "Flowboard",
-//     description:
-//       "A collaborative workspace for organizing tasks, tracking progress, and keeping teams in sync.",
-//     category: "Web App",
-//     technologies: ["Next.js", "TypeScript", "PostgreSQL"],
-//     owner: "Nadia Putri",
-//     initials: "F",
-//     accent: "bg-gradient-to-br from-indigo-500 to-violet-700",
-//   },
-//   {
-//     id: "02",
-//     title: "Lumina UI",
-//     description:
-//       "A collection of accessible interface patterns designed for modern web applications.",
-//     category: "UI / Design",
-//     technologies: ["React", "Tailwind CSS"],
-//     owner: "Arif Pratama",
-//     initials: "L",
-//     accent: "bg-gradient-to-br from-cyan-500 to-blue-700",
-//   },
-//   {
-//     id: "03",
-//     title: "Pocket Ledger",
-//     description:
-//       "A simple personal finance dashboard for understanding spending habits and monthly budgets.",
-//     category: "Fintech",
-//     technologies: ["Next.js", "Prisma"],
-//     owner: "Maya Sari",
-//     initials: "P",
-//     accent: "bg-gradient-to-br from-emerald-500 to-teal-800",
-//   },
-// ];
-
-const developers = [
-  {
-    name: "Nadia Putri",
-    username: "@nadiaputri",
-    specialty: "Full-stack developer",
-    initials: "NP",
-  },
-  {
-    name: "Arif Pratama",
-    username: "@arifcodes",
-    specialty: "Frontend developer",
-    initials: "AP",
-  },
-  {
-    name: "Maya Sari",
-    username: "@mayabuilds",
-    specialty: "Product engineer",
-    initials: "MS",
-  },
-];
+import { projects } from "@/lib/data/projects";
+import { developers } from "@/lib/data/developers";
 
 export default function Home() {
   return (
@@ -159,29 +103,33 @@ export default function Home() {
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {developers.map((developer) => (
-              <article
-                key={developer.username}
-                className="flex items-center gap-4 rounded-xl border bg-card p-5 transition-colors hover:bg-accent/40"
+            {developers.slice(0, 3).map((developer) => (
+              <Link
+                key={developer.id}
+                href={`/developers/${developer.slug}`}
+                aria-label={`View ${developer.name}'s profile`}
+                className="group rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               >
-                <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
-                  {developer.initials}
-                </div>
+                <article className="flex h-full items-center gap-4 rounded-xl border bg-card p-5 transition-colors group-hover:bg-accent/40">
+                  <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
+                    {developer.initials}
+                  </div>
 
-                <div className="min-w-0 space-y-1">
-                  <h3 className="truncate text-sm font-semibold">
-                    {developer.name}
-                  </h3>
+                  <div className="min-w-0 space-y-1">
+                    <h3 className="truncate text-sm font-semibold group-hover:text-primary">
+                      {developer.name}
+                    </h3>
 
-                  <p className="truncate text-xs text-muted-foreground">
-                    {developer.username}
-                  </p>
+                    <p className="truncate text-xs text-muted-foreground">
+                      @{developer.username}
+                    </p>
 
-                  <p className="text-sm text-muted-foreground">
-                    {developer.specialty}
-                  </p>
-                </div>
-              </article>
+                    <p className="line-clamp-2 text-sm text-muted-foreground">
+                      {developer.bio}
+                    </p>
+                  </div>
+                </article>
+              </Link>
             ))}
           </div>
         </section>

@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { ArrowLeft, CheckCircle2, Code2, ExternalLink } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Code2 } from "lucide-react";
 
 import { SiteHeader } from "@/components/layout/site-header";
 import { projects } from "@/lib/data/projects";
+import { developers } from "@/lib/data/developers";
 
 type ProjectDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -35,9 +36,13 @@ export async function generateMetadata({
 
 export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
   return (
-    <Suspense fallback={<ProjectDetailLoading />}>
-      <ProjectDetailContent params={params} />
-    </Suspense>
+    <>
+      <SiteHeader />
+
+      <Suspense fallback={<ProjectDetailLoading />}>
+        <ProjectDetailContent params={params} />
+      </Suspense>
+    </>
   );
 }
 
@@ -56,82 +61,146 @@ function ProjectDetailLoading() {
 
 async function ProjectDetailContent({ params }: ProjectDetailPageProps) {
   const { slug } = await params;
-  const project = await getProject(slug);
+
+  const project = projects.find((item) => item.slug === slug);
 
   if (!project) {
     notFound();
   }
 
-  const description = project.longDescription ?? project.description;
+  const developer = developers.find((item) => item.name === project.owner);
 
   return (
-    <>
-      <SiteHeader />
+    <main className="flex-1">
+      <div className="mx-auto max-w-6xl px-6 py-12">
+        <Link
+          href="/projects"
+          className="mb-8 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+        >
+          <ArrowLeft size={16} />
+          Back to projects
+        </Link>
 
-      <main className="flex-1">
-        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-          <Link
-            href="/projects"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+        {/* Project hero */}
+        <section className="overflow-hidden rounded-3xl border border-border bg-card">
+          <div
+            className={`relative flex h-64 items-center justify-center bg-gradient-to-br sm:h-80 ${project.accent}`}
           >
-            <ArrowLeft className="size-4" />
-            Back to projects
-          </Link>
+            <span className="absolute left-6 top-6 rounded-full border border-white/20 bg-black/20 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
+              {project.category}
+            </span>
 
-          <section className="mt-8 overflow-hidden rounded-2xl border bg-card">
-            <div
-              className={`relative flex min-h-52 items-center justify-center overflow-hidden sm:min-h-72 ${project.accent}`}
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-black/20" />
-
-              <div className="relative flex size-24 items-center justify-center rounded-3xl border border-white/30 bg-white/15 text-5xl font-bold text-white shadow-xl backdrop-blur-sm sm:size-32 sm:text-6xl">
-                {project.initials}
-              </div>
-
-              <span className="absolute left-5 top-5 rounded-full border border-white/30 bg-black/20 px-3 py-1.5 text-xs font-medium text-white backdrop-blur-sm">
-                {project.category}
-              </span>
+            <div className="flex size-32 items-center justify-center rounded-3xl border border-white/20 bg-white/15 text-6xl font-bold text-white shadow-lg backdrop-blur-sm">
+              {project.initials.charAt(0)}
             </div>
+          </div>
 
-            <div className="p-5 sm:p-8 lg:p-10">
-              <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-                <div className="min-w-0 flex-1">
-                  <p className="text-sm font-medium text-primary">
-                    Community project
-                  </p>
+          <div className="p-6 sm:p-10">
+            <p className="font-medium text-primary">Community project</p>
 
-                  <h1 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
-                    {project.title}
-                  </h1>
+            <h1 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
+              {project.title}
+            </h1>
 
-                  <p className="mt-4 max-w-3xl text-base leading-7 text-muted-foreground">
-                    {description}
-                  </p>
+            <p className="mt-5 max-w-4xl text-base leading-8 text-muted-foreground sm:text-lg">
+              {project.longDescription ?? project.description}
+            </p>
 
-                  <div className="mt-6 flex items-center gap-3">
-                    <div className="flex size-10 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
-                      {project.owner.slice(0, 1).toUpperCase()}
-                    </div>
+            {/* Clickable developer identity */}
+            <div className="mt-8">
+              {developer ? (
+                <Link
+                  href={`/developers/${developer.slug}`}
+                  className="group inline-flex items-center gap-3 rounded-xl transition-opacity hover:opacity-80"
+                  aria-label={`Lihat profil ${developer.name}`}
+                >
+                  <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-primary/10 font-semibold text-primary">
+                    {developer.initials.charAt(0)}
+                  </div>
 
-                    <div>
-                      <p className="text-xs text-muted-foreground">
-                        Created by
-                      </p>
-                      <p className="text-sm font-medium">{project.owner}</p>
-                    </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Created by</p>
+                    <p className="font-medium transition-colors group-hover:text-primary">
+                      {developer.name}
+                    </p>
+                  </div>
+                </Link>
+              ) : (
+                <div className="inline-flex items-center gap-3">
+                  <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-primary/10 font-semibold text-primary">
+                    {project.initials.charAt(0)}
+                  </div>
+
+                  <div>
+                    <p className="text-sm text-muted-foreground">Created by</p>
+                    <p className="font-medium">{project.owner}</p>
                   </div>
                 </div>
+              )}
+            </div>
+          </div>
+        </section>
 
-                <div className="flex flex-wrap gap-3">
+        {/* Project details */}
+        <div className="mt-10 grid gap-8 lg:grid-cols-3">
+          <div className="space-y-8 lg:col-span-2">
+            {project.features && project.features.length > 0 && (
+              <section className="rounded-2xl border border-border bg-card p-6 sm:p-8">
+                <h2 className="flex items-center gap-3 text-xl font-bold">
+                  <Code2 size={22} className="text-primary" />
+                  About this project
+                </h2>
+
+                <ul className="mt-6 space-y-4">
+                  {project.features.map((feature) => (
+                    <li
+                      key={feature}
+                      className="flex items-start gap-3 text-muted-foreground"
+                    >
+                      <span className="mt-2 size-1.5 shrink-0 rounded-full bg-primary" />
+                      <span className="leading-7">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+          </div>
+
+          {/* Technologies and project links */}
+          <aside className="space-y-6">
+            <section className="rounded-2xl border border-border bg-card p-6">
+              <h2 className="text-lg font-bold">Technologies</h2>
+
+              <p className="mt-2 text-sm text-muted-foreground">
+                Tools used to build this project.
+              </p>
+
+              <div className="mt-5 flex flex-wrap gap-2">
+                {project.technologies.map((technology) => (
+                  <span
+                    key={technology}
+                    className="rounded-full border border-border bg-muted/50 px-3 py-1.5 text-sm"
+                  >
+                    {technology}
+                  </span>
+                ))}
+              </div>
+            </section>
+
+            {(project.liveUrl || project.githubUrl) && (
+              <section className="rounded-2xl border border-border bg-card p-6">
+                <h2 className="text-lg font-bold">Project links</h2>
+
+                <div className="mt-4 flex flex-col gap-3">
                   {project.liveUrl && (
                     <a
                       href={project.liveUrl}
                       target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
                     >
-                      Live demo
-                      <ExternalLink className="size-4" />
+                      Live Demo
+                      <ArrowUpRight size={16} />
                     </a>
                   )}
 
@@ -139,91 +208,20 @@ async function ProjectDetailContent({ params }: ProjectDetailPageProps) {
                     <a
                       href={project.githubUrl}
                       target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border bg-background px-4 text-sm font-medium transition-colors hover:bg-accent"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-medium transition-colors hover:bg-accent"
                     >
-                      <Code2 className="size-4" />
-                      Source code
+                      <Code2 size={16} />
+                      Source Code
+                      <ArrowUpRight size={16} />
                     </a>
                   )}
                 </div>
-              </div>
-            </div>
-          </section>
-
-          <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
-            <section className="rounded-xl border bg-card p-5 sm:p-7">
-              <div className="flex items-center gap-2">
-                <Code2 className="size-5 text-primary" />
-                <h2 className="text-lg font-semibold">About this project</h2>
-              </div>
-
-              <p className="mt-4 whitespace-pre-line text-sm leading-7 text-muted-foreground">
-                {description}
-              </p>
-
-              {project.features && project.features.length > 0 && (
-                <div className="mt-8">
-                  <h3 className="font-semibold">Key features</h3>
-
-                  <ul className="mt-4 space-y-3">
-                    {project.features.map((feature) => (
-                      <li
-                        key={feature}
-                        className="flex items-start gap-3 text-sm leading-6 text-muted-foreground"
-                      >
-                        <CheckCircle2 className="mt-1 size-4 shrink-0 text-primary" />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </section>
-
-            <aside className="h-fit rounded-xl border bg-card p-5 sm:p-6">
-              <h2 className="font-semibold">Technologies</h2>
-
-              <p className="mt-1 text-sm text-muted-foreground">
-                Tools used to build this project.
-              </p>
-
-              <div className="mt-4 flex flex-wrap gap-2">
-                {project.technologies.map((technology) => (
-                  <span
-                    key={technology}
-                    className="rounded-md bg-secondary px-3 py-1.5 text-xs font-medium text-secondary-foreground"
-                  >
-                    {technology}
-                  </span>
-                ))}
-              </div>
-
-              <div className="mt-6 border-t pt-5">
-                <p className="text-xs text-muted-foreground">Category</p>
-                <p className="mt-1 text-sm font-medium">{project.category}</p>
-              </div>
-            </aside>
-          </div>
-
-          <div className="mt-8">
-            <Link
-              href="/projects"
-              className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
-            >
-              <ArrowLeft className="size-4" />
-              Explore more projects
-            </Link>
-          </div>
+              </section>
+            )}
+          </aside>
         </div>
-      </main>
-
-      <footer className="border-t">
-        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-          <span>© 2026 DevGalery</span>
-          <span>Made for the developer community.</span>
-        </div>
-      </footer>
-    </>
+      </div>
+    </main>
   );
 }
